@@ -36,7 +36,7 @@ General info about this product and the core values of this integration. <br>
 Prior using this custom connector, it should be deployed in the Resource Group where the playbooks that will include it are located.
 <br>
 1. Deploy the Custom Connector by clicking on "Deploy to Azure" button. This will take you to deplyoing an ARM Template wizard.
-2. Fill in the required paramteres:
+2. Fill in the required parameters:
     * Connector name: Please enter the custom connector(ex: VirusTotal)
 
 

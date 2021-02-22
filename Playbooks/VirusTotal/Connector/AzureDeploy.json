@@ -117,8 +117,8 @@
                         },
                         "/api/v3/ip_addresses/{ip}": {
                             "get": {
-                                "summary": "Get a IP report",
-                                "description": "Get a IP report",
+                                "summary": "Get an IP report",
+                                "description": "Get an IP report",
                                 "operationId": "VirusTotalGetIpScanV3",
                                 "parameters": [
                                     {
@@ -951,7 +951,7 @@
                                                     "type": "object",
                                                     "x-ms-summary": "Last analysis results",
                                                     "properties": {},
-                                                    "description": "Result from URL scanners. Dictionary with scanner name as key and a dict with notes/result from that scanner as value"
+                                                    "description": "Result from URL scanners. Dictionary with scanner name as key and a dictionary with notes/result from that scanner as value"
                                                 },
                                                 "last_analysis_stats": {
                                                     "type": "object",
@@ -1035,8 +1035,14 @@
                                                     "properties": {},
                                                     "description": "Domain's position in popularity ranks such as Alexa, Quantcast, Statvoo, etc."
                                                 },
+                                                "registrar": {
+                                                    "type": "string",
+                                                    "x-ms-summary": "Registrar",
+                                                    "description": "Company that registered the domain"
+                                                },
                                                 "reputation": {
                                                     "type": "integer",
+                                                    "x-ms-summary": "Reputation",
                                                     "format": "int32",
                                                     "description": "Domain's score calculated from the votes of the VirusTotal's community"
                                                 },
