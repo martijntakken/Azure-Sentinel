@@ -8,20 +8,6 @@
             "metadata": {
                 "description": "Name of the Logic App/Playbook"
             }
-        },
-        "Teams GroupId": {
-            "defaultValue": "",
-            "type": "String",
-            "metadata": {
-                "description": "GroupId of the Team channel"
-            }
-        },
-        "Teams ChannelId": {
-            "defaultValue": "",
-            "type": "String",
-            "metadata": {
-                "description": "Team ChannelId"
-            }
         }
     },
     "variables": {
@@ -124,23 +110,6 @@
                                 "path": "/entities/ip"
                             }
                         },
-                        "Initialize_variable": {
-                            "runAfter": {
-                                "Entities_-_Get_IPs": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "InitializeVariable",
-                            "inputs": {
-                                "variables": [
-                                    {
-                                        "name": "ProductName",
-                                        "type": "string",
-                                        "value": "@{join(triggerBody()?['object']?['properties']?['additionalData']?['alertProductNames'], ',')}"
-                                    }
-                                ]
-                            }
-                        },
                         "For_each": {
                             "foreach": "@body('Entities_-_Get_IPs')?['IPs']",
                             "actions": {
@@ -166,9 +135,9 @@
                                     "type": "ApiConnection",
                                     "inputs": {
                                         "body": {
-                                            "messageBody": "{\n    \"type\": \"AdaptiveCard\",\n    \"body\": [\n        {\n            \"type\": \"ColumnSet\",\n            \"columns\": [\n                {\n                    \"type\": \"Column\",\n                    \"width\": \"auto\",\n                    \"items\": [\n                        {\n                            \"type\": \"Image\",\n                            \"url\": \"https://connectoricons-prod.azureedge.net/releases/v1.0.1440/1.0.1440.2331/azuresentinel/icon.png\"\n                        }\n                    ]\n                },\n                {\n                    \"type\": \"Column\",\n                    \"width\": \"auto\",\n                    \"items\": [\n                        {\n                            \"type\": \"Image\",\n                            \"url\": \"https://www.virustotal.com/gui/images/logo.svg\"\n                        }\n                    ],\n                    \"minHeight\": \"1px\"\n                }\n            ]\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"size\": \"Medium\",\n            \"weight\": \"Bolder\",\n            \"text\": \"@{triggerBody()?['object']?['properties']?['title']}\"\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"New @{triggerBody()?['object']?['properties']?['severity']} incident @{triggerBody()?['object']?['properties']?['title']} by @{variables('ProductName')} (@{triggerBody()?['object']?['properties']?['incidentNumber']}).\",\n            \"wrap\": true\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"@{triggerBody()?['object']?['properties']?['description']}\",\n            \"wrap\": true\n        },\n        {\n            \"type\": \"FactSet\",\n            \"facts\": [\n                {\n                    \"title\": \"Harmless:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['harmless']}\"\n                },\n                {\n                    \"title\": \"Malicious:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['malicious']}\"\n                },\n                {\n                    \"title\": \"Suspicious:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['suspicious']}\"\n                },\n                {\n                    \"title\": \"Timeout:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['timeout']}\"\n                },\n                {\n                    \"title\": \"Undetected:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['undetected']}\"\n                }\n            ]\n        },\n        {\n            \"type\": \"FactSet\",\n            \"facts\": [\n                {\n                    \"title\": \"Country:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['country']}\"\n                },\n                {\n                    \"title\": \"Continent:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['continent']}\"\n                },\n                {\n                    \"title\": \"Owner:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['as_owner']}\"\n                },\n                {\n                    \"title\": \"Total votes:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['total_votes']}\"\n                },\n                {\n                    \"title\": \"Reputation:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['reputation']}\"\n                }\n            ]\n        },\n        {\n            \"type\": \"ActionSet\",\n            \"actions\": [\n                {\n                    \"type\": \"Action.OpenUrl\",\n                    \"title\": \"Open incident\",\n                    \"url\": \"@{triggerBody()?['object']?['properties']?['incidentUrl']}\"\n                }\n            ]\n        }\n    ],\n    \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n    \"version\": \"1.3\"\n}",
+                                            "messageBody": "{\n    \"type\": \"AdaptiveCard\",\n    \"body\": [\n        {\n            \"type\": \"ColumnSet\",\n            \"columns\": [\n                {\n                    \"type\": \"Column\",\n                    \"width\": \"auto\",\n                    \"items\": [\n                        {\n                            \"type\": \"Image\",\n                            \"url\": \"https://connectoricons-prod.azureedge.net/releases/v1.0.1440/1.0.1440.2331/azuresentinel/icon.png\"\n                        }\n                    ]\n                },\n                {\n                    \"type\": \"Column\",\n                    \"width\": \"auto\",\n                    \"items\": [\n                        {\n                            \"type\": \"Image\",\n                            \"url\": \"https://www.virustotal.com/gui/images/logo.svg\"\n                        }\n                    ],\n                    \"minHeight\": \"1px\"\n                }\n            ]\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"size\": \"Medium\",\n            \"weight\": \"Bolder\",\n            \"text\": \"@{triggerBody()?['object']?['properties']?['title']}\"\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"New @{triggerBody()?['object']?['properties']?['severity']} incident @{triggerBody()?['object']?['properties']?['title']} by @{join(triggerBody()?['object']?['properties']?['additionalData']?['alertProductNames'], ',')} (@{triggerBody()?['object']?['properties']?['incidentNumber']}).\",\n            \"wrap\": true\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"@{triggerBody()?['object']?['properties']?['description']}\",\n            \"wrap\": true\n        },\n        {\n            \"type\": \"FactSet\",\n            \"facts\": [\n                {\n                    \"title\": \"Harmless:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['harmless']}\"\n                },\n                {\n                    \"title\": \"Malicious:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['malicious']}\"\n                },\n                {\n                    \"title\": \"Suspicious:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['suspicious']}\"\n                },\n                {\n                    \"title\": \"Timeout:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['timeout']}\"\n                },\n                {\n                    \"title\": \"Undetected:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['last_analysis_stats']?['undetected']}\"\n                }\n            ]\n        },\n        {\n            \"type\": \"FactSet\",\n            \"facts\": [\n                {\n                    \"title\": \"Country:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['country']}\"\n                },\n                {\n                    \"title\": \"Continent:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['continent']}\"\n                },\n                {\n                    \"title\": \"Owner:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['as_owner']}\"\n                },\n                {\n                    \"title\": \"Total votes:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['total_votes']}\"\n                },\n                {\n                    \"title\": \"Reputation:\",\n                    \"value\": \"@{body('Get_an_IP_report')?['data']?['attributes']?['reputation']}\"\n                }\n            ]\n        },\n        {\n            \"type\": \"ActionSet\",\n            \"actions\": [\n                {\n                    \"type\": \"Action.OpenUrl\",\n                    \"title\": \"Open incident\",\n                    \"url\": \"@{triggerBody()?['object']?['properties']?['incidentUrl']}\"\n                }\n            ]\n        }\n    ],\n    \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n    \"version\": \"1.3\"\n}",
                                             "recipient": {
-                                                "channelId": "[parameters('Teams ChannelId')]"
+                                                "channelId": ""
                                             },
                                             "shouldUpdateCard": true
                                         },
@@ -180,14 +149,14 @@
                                         "method": "post",
                                         "path": "/v1.0/teams/conversation/adaptivecard/poster/@{encodeURIComponent('User')}/location/@{encodeURIComponent('Channel')}",
                                         "queries": {
-                                            "groupId": "[parameters('Teams GroupId')]"
+                                            "groupId": ""
                                         },
                                         "notificationUrl": "@{listCallbackUrl()}"
                                     }
                                 }
                             },
                             "runAfter": {
-                                "Initialize_variable": [
+                                "Entities_-_Get_IPs": [
                                     "Succeeded"
                                 ]
                             },
@@ -209,7 +178,7 @@
                                 "connectionName": "[variables('TeamsConnectionName')]",
                                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/teams')]"
                             },
-                            "virustotal": {
+                            "VirusTotal": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('VirusTotalConnectionName'))]",
                                 "connectionName": "[variables('VirusTotalConnectionName')]",
                                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/customApis/VirusTotal')]"

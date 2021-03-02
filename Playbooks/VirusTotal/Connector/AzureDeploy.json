@@ -631,7 +631,7 @@
                                                             "type": "integer",
                                                             "format": "int32",
                                                             "description": "Number of reports saying that is malicious",
-                                                            "x-ms-summary": "Malicious (Last Analysis Statistics)"
+                                                            "x-ms-summary": "Malicious"
                                                         },
                                                         "suspicious": {
                                                             "type": "integer",
