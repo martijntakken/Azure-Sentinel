@@ -20,14 +20,13 @@ General info about this product and the core values of this integration. <br>
 
 | Action | Description |
 | --------- | -------------- |
-| **Analyze a URL** | Action used to analyze a Url. Returns an id that can be used for the 'Get URL report' action. |
-| **Get URL report** | ID Action used to Retrieve information about a URL. Uses the ID from the 'Analyze a URL' action as input |
-| **Get a IP report** | Action used to retrieve information about an IP address |
-| **Retrieve information about a file or URL analysis** | Action used to retrieve information about a file or URL analysis |
+| **Get URL report** | ID Action used to Retrieve information about a URL. Uses uses a MD5 hash of the URL as input |
+| **Get a IP report** | Action used to retrieve information about an IP address. Uses an IP address as input |
 | **Get file report** | Action used to retrieve information about a file. Uses a SHA-256, SHA-1 or MD5 for identifying the file |
+| **Get Domain report** | Action used to retrieve information about an Internet domain. Usess a domain as input |
+| **Analyze a URL** | Action used to analyze a Url. Returns an id that can be used for the 'Get URL report' action. |
 | **Upload and analyze a file** | Action used to upload and analyze a file. The total payload size can not exceed 32MB. |
-| **Get Domain report** | Action used to retrieve information about an Internet domain |
-
+| **Retrieve information about a file or URL analysis** | Action used to retrieve information about a file or URL analysis |
 
 <a name="deployment"></a>
 
