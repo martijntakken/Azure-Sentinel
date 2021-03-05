@@ -123,7 +123,7 @@
                                             }
                                         },
                                         "method": "get",
-                                        "path": "/api/v3/domains/@{encodeURIComponent(items('For_each')?['DnsDomain'])}"
+                                        "path": "/api/v3/domains/@{encodeURIComponent(items('For_each')?['HostName'],'.',items('For_each')?['DnsDomain'])}"
                                     }
                                 },
                                 "Post_adaptive_card_in_a_chat_or_channel": {
@@ -151,6 +151,7 @@
                                     }
                                 }
                             },
+
                             "runAfter": {
                                 "Entities_-_Get_Hosts": [
                                     "Succeeded"
