@@ -13,7 +13,7 @@
             "type": "Microsoft.Web/customApis",
             "apiVersion": "2016-06-01",
             "name": "[parameters('Connector Name')]",
-            "location": "westeurope",
+            "location": "",
             "properties": {
                 "connectionParameters": {
                     "api_key": {
