@@ -64,7 +64,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('GithubUrl'), '/Authentication/ZScaler-Authentation.json')]",
+          "uri": "[concat(variables('GithubUrl'), '/Authentication/zscaler-Authentication.json')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
