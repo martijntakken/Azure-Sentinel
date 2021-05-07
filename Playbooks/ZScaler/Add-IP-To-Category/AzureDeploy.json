@@ -81,7 +81,7 @@
       "name": "Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": [],
+      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
