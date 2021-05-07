@@ -46,9 +46,9 @@
         }
     },
     "variables": {
-        "functionAppName": "[concat(parameters('Playbook name'), '-FA')]",
-        "appServicePlanName": "[concat(parameters('Playbook name'), '-SP')]",
-        "keyvault_name": "[concat(parameters('Playbook name'), '-KV')]",
+        "functionAppName": "[concat(parameters('Playbook name'), 'FA')]",
+        "appServicePlanName": "[concat(parameters('Playbook name'), 'SP')]",
+        "keyvault_name": "[concat(parameters('Playbook name'), 'KV')]",
         "storageAccountName": "[toLower(parameters('Storage account name'))]"
     },
     "resources": [
