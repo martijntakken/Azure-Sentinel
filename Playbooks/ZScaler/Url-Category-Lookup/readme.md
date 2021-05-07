@@ -1,4 +1,4 @@
-# ZScaler - Add IP to category
+# ZScaler - Url category lookup
 
 <img src="../Images/ZScaler.png" width="200"><br>
 ## Table of Contents
@@ -15,9 +15,9 @@
 ## Summary
 
 This folder contains 1 playbook: 
-* Add IP to category: Add one or more IP addresses to an existing ZScaler category
+* Url Category lookup: Get ZScaler categories for one or more Urls
 
-![Playbook](../Images/Add-IP-To-Category.png)
+![Playbook](../Images/Url-Category-Lookup.png)
 
 The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are snown in the related Azure Sentinel Incident. 
 
@@ -43,15 +43,14 @@ You can choose to deploy one ore more playbooks.
     * ZScaler Key
     * ZScaler Username
     * ZScaler Password
-    * Category (Name of an existing ZScaler category)
 
 ### Add IP to category:
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FAzureDeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FUrl-Category-Lookup%2FAzureDeploy.json" target="_blank">
     <img src="https://aka.ms/deploytoazurebutton"/>
 </a>
 
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FAzureDeploy.json" target="_blank">
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FUrl-Category-Lookup%2FAzureDeploy.json" target="_blank">
    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.png"/>    
 </a>
 
