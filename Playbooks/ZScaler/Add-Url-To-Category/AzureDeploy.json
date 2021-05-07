@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "Playbook name": {
-      "defaultValue": "ZScaler-Add-IP-To-Category",
+      "defaultValue": "ZScaler-Add-Url-To-Category",
       "type": "String",
       "metadata": {
         "description": "Name of the playbook, used as name for the resources. Use only letters and dashes."
