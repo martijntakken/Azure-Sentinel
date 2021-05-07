@@ -53,7 +53,7 @@
     }
   },
   "variables": {
-    "GithubUrl": "https://github.com/martijntakken/Azure-Sentinel/tree/feature/zscaler/Playbooks/ZScaler"
+    "GithubUrl": "https://raw.githubusercontent.com/martijntakken/Azure-Sentinel/feature/zscaler/Playbooks/ZScaler"
   },
   "resources": [
     {
