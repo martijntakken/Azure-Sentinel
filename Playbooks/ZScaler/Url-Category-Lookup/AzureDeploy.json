@@ -79,7 +79,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('GithubUrl'), '/Add-IP-To-Category/ZScaler-Url-Category-Lookup.json')]",
+          "uri": "[concat(variables('GithubUrl'), '/Url-Category-Lookup/ZScaler-Url-Category-Lookup.json')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
