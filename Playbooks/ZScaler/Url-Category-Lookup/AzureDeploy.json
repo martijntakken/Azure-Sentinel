@@ -9,11 +9,11 @@
                 "description": "Name of the Logic App/Playbook"
             }
         },
-        "ZScaler Authentation Flow": {
+        "ZScaler Authentation Playbook": {
             "defaultValue": "Zscaler-Authentication",
             "type": "String",
             "metadata": {
-                "description": "Name of the ZScaler Authentication Flow"
+                "description": "Name of the ZScaler Authentication Playbook"
             }
         },
         "Zscaler Admin Url": {
@@ -26,7 +26,7 @@
     },
     "variables": {
         "AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('Playbook Name'))]",
-        "ZScalerAuthenticationFlow": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Logic/workflows/', parameters('ZScaler Authentation Flow'))]"
+        "ZScalerAuthenticationFlow": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Logic/workflows/', parameters('ZScaler Authentation Playbook'))]"
     },
     "resources": [
         {

@@ -9,6 +9,13 @@
                 "description": "Name of the playbook, used as name for the resources. Use only letters and dashes."
             }
         },
+        "Storage account name": {
+            "defaultValue": "zscalerauthenticationsa",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the storage account, which will be created by the playbook"
+            }
+        },
         "Zscaler Admin Url": {
             "defaultValue": "https://admin.zscalerbeta.net",
             "type": "string",
@@ -37,14 +44,12 @@
                 "description": "Your Scaler password."
             }
         }
-
-
     },
     "variables": {
         "functionAppName": "[concat(parameters('Playbook name'), '-FA')]",
         "appServicePlanName": "[concat(parameters('Playbook name'), '-SP')]",
         "keyvault_name": "[concat(parameters('Playbook name'), '-KV')]",
-        "storageAccountName": "[concat(toLower(parameters('Playbook name')), 'sa')]"
+        "storageAccountName": "[toLower(parameters('Storage account name'))]"
     },
     "resources": [
         {

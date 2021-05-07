@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "Playbook Name": {
-            "defaultValue": "ZScaler-Add-Url-To-Category",
+            "defaultValue": "ZScaler-Add-IP-To-Category",
             "type": "String",
             "metadata": {
                 "description": "Name of the Logic App/Playbook"
@@ -29,8 +29,7 @@
             "metadata": {
                 "description": "Name of the category"
             }
-        },
-        
+        }
     },
     "variables": {
         "AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('Playbook Name'))]",
@@ -87,7 +86,7 @@
                         }
                     },
                     "actions": {
-                        "Entities_-_Get_URLs": {
+                        "Entities_-_Get_IPs": {
                             "runAfter": {},
                             "type": "ApiConnection",
                             "inputs": {
@@ -98,15 +97,15 @@
                                     }
                                 },
                                 "method": "post",
-                                "path": "/entities/url"
+                                "path": "/entities/ip"
                             }
                         },
                         "For_each": {
-                            "foreach": "@body('Entities_-_Get_URLs')?['URLs']",
+                            "foreach": "@body('Entities_-_Get_IPs')?['IPs']",
                             "actions": {
-                                "Add_comment_to_incident_(V3)": {
+                                "Add_comment_to_incident_(V3)_2": {
                                     "runAfter": {
-                                        "HTTP_Add_Url": [
+                                        "HTTP": [
                                             "Succeeded"
                                         ]
                                     },
@@ -114,7 +113,7 @@
                                     "inputs": {
                                         "body": {
                                             "incidentArmId": "@triggerBody()?['object']?['id']",
-                                            "message": "[concat('<p>Url @{items(''For_each'')?[''Url'']} has been added to category ', parameters('Category'), '</p>')]"
+                                            "message": "[concat('<p>IP @{items(''For_each'')?[''Address'']} has been added to category ', parameters('Category'), '</p>')]"
                                         },
                                         "host": {
                                             "connection": {
@@ -125,13 +124,13 @@
                                         "path": "/Incidents/Comment"
                                     }
                                 },
-                                "HTTP_Add_Url": {
+                                "HTTP": {
                                     "runAfter": {},
                                     "type": "Http",
                                     "inputs": {
                                         "body": {
                                             "urls": [
-                                                "@{items('For_each')?['Url']}"
+                                                "@{items('For_each')?['Address']}"
                                             ]
                                         },
                                         "cookie": "@body('Parse_Authentication_Response')?['cookie']",
@@ -172,7 +171,7 @@
                         },
                         "zscaler": {
                             "runAfter": {
-                                "Entities_-_Get_URLs": [
+                                "Entities_-_Get_IPs": [
                                     "Succeeded"
                                 ]
                             },
