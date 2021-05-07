@@ -1,4 +1,4 @@
-# ZScaler - Add IP to category
+# ZScaler - Authentication
 
 <img src="../Images/ZScaler.png" width="200"><br>
 ## Table of Contents
@@ -15,11 +15,9 @@
 ## Summary
 
 This folder contains 1 playbook: 
-* Add IP to category: Add one or more IP addresses to an existing ZScaler category
+* ZScaler Authentication: Can be used to handle the ZScaler Authentication authenticatopn process. The output is a JSessionID which can be used to do other API actions. The playbook can be embedded in other playbooks. Refer this link for the authentication Process: [Authenticate and create an API session](https://help.zscaler.com/zia/api-getting-started#CreateSession)
 
-![Playbook](../Images/Add-IP-To-Category.png)
-
-The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are snown in the related Azure Sentinel Incident. 
+![Playbook](../Images/Authentication.png)
 
 <a name="Prerequisites"></a>
 
@@ -43,15 +41,14 @@ You can choose to deploy one ore more playbooks.
     * ZScaler Key
     * ZScaler Username
     * ZScaler Password
-    * Category (Name of an existing ZScaler category)
 
 ### Add IP to category:
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FAzureDeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAuthentication%2Fzscaler-authentication.json" target="_blank">
     <img src="https://aka.ms/deploytoazurebutton"/>
 </a>
 
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FAzureDeploy.json" target="_blank">
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAuthentication%2Fzscaler-authentication.json" target="_blank">
    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.png"/>    
 </a>
 
@@ -60,18 +57,12 @@ You can choose to deploy one ore more playbooks.
 
 ## Post-Deployment instructions 
 ### a. Authorize connections
-Once the deployment is completed, you will need to authorize each connection. There are connection for Azure KeyVault and Azure Sentinel. For each connection complete the following steps:
+Once the deployment is completed, you will need to authorize the Azure Sentinel connection.Please complete the following steps:
  1. Click edit API connection
  1. Fill in the necessary information
  1. Click Authorize
  1. Sign in
  1. Click Save
-
-
-### b. Configurations in Azure Sentinel
-For Azure Sentinel some additional configuration is needed:
-1. Enable Azure Sentinel Analytics rules that create alerts and incidents which includes the relevant entities.
-1. Configure automation rule(s) to trigger the playbooks.
 
 
 <a name="references"></a>
