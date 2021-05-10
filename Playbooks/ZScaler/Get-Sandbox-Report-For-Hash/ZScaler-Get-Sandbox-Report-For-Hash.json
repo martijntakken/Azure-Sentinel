@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "Playbook Name": {
-            "defaultValue": "ZScaler-Add-IP-To-Category",
+            "defaultValue": "ZScaler-Get-Sandbox-Report-For-Hash",
             "type": "String",
             "metadata": {
                 "description": "Name of the Logic App/Playbook"
@@ -22,13 +22,6 @@
             "metadata": {
                 "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
             }
-        },
-        "Block Category": {
-            "defaultValue": "OTHER_MISCELLANEOUS",
-            "type": "String",
-            "metadata": {
-                "description": "ZScaler block category"
-            }
         }
     },
     "variables": {
@@ -36,7 +29,7 @@
         "ZScalerAuthenticationFlow": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Logic/workflows/', parameters('ZScaler Authentation Playbook'))]"
     },
     "resources": [
-        {
+                {
             "type": "Microsoft.Web/connections",
             "apiVersion": "2016-06-01",
             "name": "[variables('AzureSentinelConnectionName')]",
@@ -86,7 +79,28 @@
                         }
                     },
                     "actions": {
-                        "Entities_-_Get_IPs": {
+                        "Add_comment_to_incident_(V3)": {
+                            "runAfter": {
+                                "For_each": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "incidentArmId": "@triggerBody()?['object']?['id']",
+                                    "message": "<p>ZScaler did a lookup for the following files:<br>\n<br>\n@{variables('Result')}</p>"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/Incidents/Comment"
+                            }
+                        },
+                        "Entities_-_Get_FileHashes": {
                             "runAfter": {},
                             "type": "ApiConnection",
                             "inputs": {
@@ -97,58 +111,80 @@
                                     }
                                 },
                                 "method": "post",
-                                "path": "/entities/ip"
+                                "path": "/entities/filehash"
                             }
                         },
                         "For_each": {
-                            "foreach": "@body('Entities_-_Get_IPs')?['IPs']",
+                            "foreach": "@body('Entities_-_Get_FileHashes')?['Filehashes']",
                             "actions": {
-                                "Add_comment_to_incident_(V3)_2": {
+                                "Append_to_Result_variable": {
                                     "runAfter": {
-                                        "HTTP": [
+                                        "Parse_Result": [
                                             "Succeeded"
                                         ]
                                     },
-                                    "type": "ApiConnection",
+                                    "type": "AppendToStringVariable",
                                     "inputs": {
-                                        "body": {
-                                            "incidentArmId": "@triggerBody()?['object']?['id']",
-                                            "message": "[concat('<p>IP @{items(''For_each'')?[''Address'']} has been added to category ', parameters('Block Category'), '</p>')]"
-                                        },
-                                        "host": {
-                                            "connection": {
-                                                "name": "@parameters('$connections')['azuresentinel']['connectionId']"
-                                            }
-                                        },
-                                        "method": "post",
-                                        "path": "/Incidents/Comment"
+                                        "name": "Result",
+                                        "value": "Summary: @{body('Parse_Result')?['Summary']}<br/>"
                                     }
                                 },
                                 "HTTP": {
-                                    "runAfter": {},
+                                    "runAfter": {
+                                    },
                                     "type": "Http",
                                     "inputs": {
-                                        "body": {
-                                            "urls": [
-                                                "@{items('For_each')?['Address']}"
-                                            ]
-                                        },
                                         "cookie": "@body('Parse_Authentication_Response')?['cookie']",
                                         "headers": {
                                             "Cache-Control": "no-cache",
                                             "Content-Type": "application/json"
                                         },
-                                        "method": "PUT",
-                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/urlCategories/', parameters('Block Category'),'?action=ADD_TO_LIST')]"
+                                        "method": "GET",
+                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/sandbox/report/@{items(''For_each'')?[''Value'']}?details=summary')]"
+                                    }
+                                },
+                                "Parse_Result": {
+                                    "runAfter": {
+                                        "HTTP": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ParseJson",
+                                    "inputs": {
+                                        "content": "@body('HTTP')",
+                                        "schema": {
+                                            "properties": {
+                                                "Summary": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 }
                             },
+                            "runAfter": {
+                                "Initialize_Response_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "Initialize_Response_variable": {
                             "runAfter": {
                                 "Parse_Authentication_Response": [
                                     "Succeeded"
                                 ]
                             },
-                            "type": "Foreach"
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "Result",
+                                        "type": "string"
+                                    }
+                                ]
+                            }
                         },
                         "Parse_Authentication_Response": {
                             "runAfter": {
@@ -171,7 +207,7 @@
                         },
                         "zscaler": {
                             "runAfter": {
-                                "Entities_-_Get_IPs": [
+                                "Entities_-_Get_FileHashes": [
                                     "Succeeded"
                                 ]
                             },

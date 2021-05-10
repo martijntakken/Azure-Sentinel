@@ -25,14 +25,14 @@
     },
     "Zscaler Key": {
       "defaultValue": "",
-      "type": "string",
+      "type": "securestring",
       "metadata": {
         "description": "Your ZScaler key."
       }
     },
     "Zscaler Username": {
       "defaultValue": "",
-      "type": "string",
+      "type": "securestring",
       "metadata": {
         "description": "Your ZScaler username."
       }
@@ -44,11 +44,11 @@
         "description": "Your Scaler password."
       }
     },
-    "Category": {
+    "Block Category": {
       "defaultValue": "OTHER_MISCELLANEOUS",
       "type": "String",
       "metadata": {
-        "description": "Name of the category"
+        "description": "ZScaler block category"
       }
     }
   },
@@ -93,7 +93,7 @@
           "Playbook name": { "value": "[parameters('Playbook name')]"},
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
           "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
-          "Category": { "value": "[parameters('Category')]"}
+          "Category": { "value": "[parameters('Block Category')]"}
         }
       }
     }

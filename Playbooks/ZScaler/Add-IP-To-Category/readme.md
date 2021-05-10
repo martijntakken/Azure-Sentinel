@@ -19,13 +19,13 @@ This folder contains 1 playbook:
 
 ![Playbook](../Images/Add-IP-To-Category.png)
 
-The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are snown in the related Azure Sentinel Incident. 
+The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are shown in the related Azure Sentinel Incident. 
 
 <a name="Prerequisites"></a>
 
 ## Prerequisites
 
-1. Playbook templates leverage the ZScaler API. To use the Zscaler capabilities, you nees a Zscaler API key. Refer this link: [API Developers Guide: Getting Started](https://help.zscaler.com/zia/api-getting-started)
+1. Playbook templates leverage the ZScaler API. To use the Zscaler capabilities, you need a Zscaler API key. Refer this link: [API Developers Guide: Getting Started](https://help.zscaler.com/zia/api-getting-started)
 
 <a name="deployment"></a>
 
@@ -45,7 +45,9 @@ You can choose to deploy one ore more playbooks.
     * ZScaler Password
     * Category (Name of an existing ZScaler category)
 
-### Add IP to category:
+### Deploy Add IP to category playbook
+
+Deploy both the Authentication Playbook as well as the Add IP to category playbook:
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FAzureDeploy.json" target="_blank">
     <img src="https://aka.ms/deploytoazurebutton"/>
@@ -54,6 +56,19 @@ You can choose to deploy one ore more playbooks.
 <a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FAzureDeploy.json" target="_blank">
    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.png"/>    
 </a>
+<br/><br/>
+
+Deploy only the Add IP to category playbook:
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FZScaler-Add-IP-To-Category.json" target="_blank">
+    <img src="https://aka.ms/deploytoazurebutton"/>
+</a>
+
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmartijntakken%2FAzure-Sentinel%2Ffeature%2Fzscaler%2FPlaybooks%2FZScaler%2FAdd-IP-To-Category%2FZScaler-Add-IP-To-Category.json" target="_blank">
+   <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.png"/>    
+</a>
+
+Please note: The [authentication playbook](../authentication/) is a mandatory prerequisite for this playbook and must be deployed first within the same resource group. The name of the authentication playbook is used as a parameter for the playbook.
 
 
 <a name="postdeployment"></a>
@@ -77,4 +92,4 @@ For Azure Sentinel some additional configuration is needed:
 <a name="references"></a>
 
 ## Learn more
-* <a href="https://help.zscaler.com/zia/api" target="_blank">Zscaler API</a>
+* <a href="https://help.zscaler.com/zia/api" target="_blank">ZScaler API</a>

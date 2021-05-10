@@ -23,14 +23,13 @@
                 "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
             }
         },
-        "Category": {
+        "Block Category": {
             "defaultValue": "OTHER_MISCELLANEOUS",
             "type": "String",
             "metadata": {
-                "description": "Name of the category"
+                "description": "ZScaler block category"
             }
-        },
-        
+        }
     },
     "variables": {
         "AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('Playbook Name'))]",
@@ -114,7 +113,7 @@
                                     "inputs": {
                                         "body": {
                                             "incidentArmId": "@triggerBody()?['object']?['id']",
-                                            "message": "[concat('<p>Url @{items(''For_each'')?[''Url'']} has been added to category ', parameters('Category'), '</p>')]"
+                                            "message": "[concat('<p>Url @{items(''For_each'')?[''Url'']} has been added to category ', parameters('Block Category'), '</p>')]"
                                         },
                                         "host": {
                                             "connection": {
@@ -140,7 +139,7 @@
                                             "Content-Type": "application/json"
                                         },
                                         "method": "PUT",
-                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/urlCategories/', parameters('Category'),'?action=ADD_TO_LIST')]"
+                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/urlCategories/', parameters('Block Category'),'?action=ADD_TO_LIST')]"
                                     }
                                 }
                             },

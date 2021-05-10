@@ -2,13 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "Playbook name": {
-      "defaultValue": "ZScaler-Add-IP-To-Category",
-      "type": "String",
-      "metadata": {
-        "description": "Name of the playbook, used as name for the resources. Use only letters and dashes."
-      }
-    },
     "Storage account name": {
       "defaultValue": "zscalerauthenticationsa",
       "type": "String",
@@ -25,14 +18,14 @@
     },
     "Zscaler Key": {
       "defaultValue": "",
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Your ZScaler key."
       }
     },
     "Zscaler Username": {
       "defaultValue": "",
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Your ZScaler username."
       }
@@ -79,7 +72,7 @@
       }
     },
     {
-      "name": "Playbook",
+      "name": "IP-Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
@@ -90,10 +83,65 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "[parameters('Playbook name')]"},
+          "Playbook name": { "value": "ZScaler-Add-IP-To-Category"},
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
           "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
           "Category": { "value": "[parameters('Block Category')]"}
+        }
+      }
+    },
+        {
+      "name": "URL-Playbook",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('GithubUrl'), '/Add-Url-To-Category/ZScaler-Add-Url-To-Category.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "Playbook name": { "value": "ZScaler-Add-Url-To-Category"},
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
+          "Category": { "value": "[parameters('Block Category')]"}
+        }
+      }
+    },
+    {
+      "name": "Category-Playbook",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('GithubUrl'), '/Url-Category-Lookup/ZScaler-Url-Category-Lookup.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "Playbook name": { "value": "Url-Category-Lookup"},
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"}
+        }
+      }
+    },
+    {
+      "name": "Playbook",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('GithubUrl'), '/Get-Sandbox-Report-For-Hash/ZScaler-Get-Sandbox-Report-For-Hash.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "Playbook name": { "value": "Get-Sandbox-Report-For-Hash"},
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"}
         }
       }
     }

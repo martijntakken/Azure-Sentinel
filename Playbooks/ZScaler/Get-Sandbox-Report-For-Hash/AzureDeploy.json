@@ -1,271 +1,94 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "Playbook Name": {
-            "defaultValue": "ZScaler-Get-Sandbox-Report-For-Hash",
-            "type": "String",
-            "metadata": {
-                "description": "Name of the Logic App/Playbook"
-            }
-        },
-        "ZScaler Authentation Playbook": {
-            "defaultValue": "Zscaler-Authentication",
-            "type": "String",
-            "metadata": {
-                "description": "Name of the ZScaler Authentication Playbook"
-            }
-        },
-        "Zscaler Admin Url": {
-            "defaultValue": "https://admin.zscalerbeta.net",
-            "type": "string",
-            "metadata": {
-                "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
-            }
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "Playbook name": {
+      "defaultValue": "ZScaler-Add-IP-To-Category",
+      "type": "String",
+      "metadata": {
+        "description": "Name of the playbook, used as name for the resources. Use only letters and dashes."
+      }
     },
-    "variables": {
-        "AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('Playbook Name'))]",
-        "ZScalerAuthenticationFlow": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Logic/workflows/', parameters('ZScaler Authentation Playbook'))]"
+    "Storage account name": {
+      "defaultValue": "zscalerauthenticationsa",
+      "type": "String",
+      "metadata": {
+        "description": "Name of the storage account, which will be created by the playbook"
+      }
     },
-    "resources": [
-                {
-            "type": "Microsoft.Web/connections",
-            "apiVersion": "2016-06-01",
-            "name": "[variables('AzureSentinelConnectionName')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-            ],
-            "properties": {
-                "customParameterValues": {},
-                "api": {
-                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]"
-                }
-            }
+    "Zscaler Admin Url": {
+      "defaultValue": "https://admin.zscalerbeta.net",
+      "type": "string",
+      "metadata": {
+        "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
+      }
+    },
+    "Zscaler Key": {
+      "defaultValue": "",
+      "type": "securestring",
+      "metadata": {
+        "description": "Your ZScaler key."
+      }
+    },
+    "Zscaler Username": {
+      "defaultValue": "",
+      "type": "securestring",
+      "metadata": {
+        "description": "Your ZScaler username."
+      }
+    },
+    "Zscaler Password": {
+      "defaultValue": "",
+      "type": "securestring",
+      "metadata": {
+        "description": "Your Scaler password."
+      }
+    }
+  },
+  "variables": {
+    "GithubUrl": "https://raw.githubusercontent.com/martijntakken/Azure-Sentinel/feature/zscaler/Playbooks/ZScaler",
+    "ZScaler Authentication Playbook Name": "ZScaler-Authentication"
+  },
+  "resources": [
+    {
+      "name": "Authentication",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('GithubUrl'), '/Authentication/zscaler-authentication.json')]",
+          "contentVersion": "1.0.0.0"
         },
-        {
-            "type": "Microsoft.Logic/workflows",
-            "apiVersion": "2017-07-01",
-            "name": "[parameters('Playbook Name')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/connections', variables('AzureSentinelConnectionName'))]"
-            ],
-            "properties": {
-                "state": "Enabled",
-                "definition": {
-                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {
-                        "$connections": {
-                            "defaultValue": {},
-                            "type": "Object"
-                        }
-                    },
-                    "triggers": {
-                        "When_Azure_Sentinel_incident_creation_rule_was_triggered": {
-                            "type": "ApiConnectionWebhook",
-                            "inputs": {
-                                "body": {
-                                    "callback_url": "@{listCallbackUrl()}"
-                                },
-                                "host": {
-                                    "connection": {
-                                        "name": "@parameters('$connections')['azuresentinel']['connectionId']"
-                                    }
-                                },
-                                "path": "/incident-creation"
-                            }
-                        }
-                    },
-                    "actions": {
-                        "Add_comment_to_incident_(V3)": {
-                            "runAfter": {
-                                "For_each": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "ApiConnection",
-                            "inputs": {
-                                "body": {
-                                    "incidentArmId": "@triggerBody()?['object']?['id']",
-                                    "message": "<p>ZScaler did a lookup for the following files:<br>\n<br>\n@{variables('Result')}</p>"
-                                },
-                                "host": {
-                                    "connection": {
-                                        "name": "@parameters('$connections')['azuresentinel']['connectionId']"
-                                    }
-                                },
-                                "method": "post",
-                                "path": "/Incidents/Comment"
-                            }
-                        },
-                        "Entities_-_Get_FileHashes": {
-                            "runAfter": {},
-                            "type": "ApiConnection",
-                            "inputs": {
-                                "body": "@triggerBody()?['object']?['properties']?['relatedEntities']",
-                                "host": {
-                                    "connection": {
-                                        "name": "@parameters('$connections')['azuresentinel']['connectionId']"
-                                    }
-                                },
-                                "method": "post",
-                                "path": "/entities/filehash"
-                            }
-                        },
-                        "For_each": {
-                            "foreach": "@body('Entities_-_Get_FileHashes')?['Filehashes']",
-                            "actions": {
-                                "Append_to_Result_variable": {
-                                    "runAfter": {
-                                        "Parse_Result": [
-                                            "Succeeded"
-                                        ]
-                                    },
-                                    "type": "AppendToStringVariable",
-                                    "inputs": {
-                                        "name": "Result",
-                                        "value": "File: @{body('Parse_Hash_JSON')?['friendlyName']}, Summary: @{body('Parse_Result')?['Summary']}"
-                                    }
-                                },
-                                "HTTP": {
-                                    "runAfter": {
-                                        "Parse_Hash_JSON": [
-                                            "Succeeded"
-                                        ]
-                                    },
-                                    "type": "Http",
-                                    "inputs": {
-                                        "cookie": "@body('Parse_Authentication_Response')?['cookie']",
-                                        "headers": {
-                                            "Cache-Control": "no-cache",
-                                            "Content-Type": "application/json"
-                                        },
-                                        "method": "GET",
-                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/sandbox/report/@{body(''Parse_Hash_JSON'')?[''hashValue'']}?details=summary')]"
-                                    }
-                                },
-                                "Parse_Hash_JSON": {
-                                    "runAfter": {},
-                                    "type": "ParseJson",
-                                    "inputs": {
-                                        "content": "@items('For_each')",
-                                        "schema": {
-                                            "properties": {
-                                                "Type": {
-                                                    "type": "string"
-                                                },
-                                                "Value": {
-                                                    "type": "string"
-                                                },
-                                                "algorithm": {
-                                                    "type": "string"
-                                                },
-                                                "friendlyName": {
-                                                    "type": "string"
-                                                },
-                                                "hashValue": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "Parse_Result": {
-                                    "runAfter": {
-                                        "HTTP": [
-                                            "Succeeded"
-                                        ]
-                                    },
-                                    "type": "ParseJson",
-                                    "inputs": {
-                                        "content": "@body('HTTP')",
-                                        "schema": {
-                                            "properties": {
-                                                "Summary": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            },
-                            "runAfter": {
-                                "Initialize_Response_variable": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "Foreach"
-                        },
-                        "Initialize_Response_variable": {
-                            "runAfter": {
-                                "Parse_Authentication_Response": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "InitializeVariable",
-                            "inputs": {
-                                "variables": [
-                                    {
-                                        "name": "Result",
-                                        "type": "string"
-                                    }
-                                ]
-                            }
-                        },
-                        "Parse_Authentication_Response": {
-                            "runAfter": {
-                                "zscaler": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "ParseJson",
-                            "inputs": {
-                                "content": "@body('zscaler')",
-                                "schema": {
-                                    "properties": {
-                                        "cookie": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        "zscaler": {
-                            "runAfter": {
-                                "Entities_-_Get_FileHashes": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "Workflow",
-                            "inputs": {
-                                "host": {
-                                    "triggerName": "manual",
-                                    "workflow": {
-                                        "id": "[variables('ZScalerAuthenticationFlow')]"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "outputs": {}
-                },
-                "parameters": {
-                    "$connections": {
-                        "value": {
-                            "azuresentinel": {
-                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('AzureSentinelConnectionName'))]",
-                                "connectionName": "[variables('AzureSentinelConnectionName')]",
-                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]"
-                            }
-                        }
-                    }
-                }
-            }
+        "parameters": {
+          "Playbook name": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
+          "Storage account name": { "value": "[parameters('Storage account name')]"},
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
+          "Zscaler Key": { "value": "[parameters('Zscaler Key')]"},
+          "Zscaler Username": { "value": "[parameters('Zscaler Username')]"},
+          "Zscaler Password": { "value": "[parameters('Zscaler Password')]"}
         }
-    ]
+      }
+    },
+    {
+      "name": "Playbook",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('GithubUrl'), '/Get-Sandbox-Report-For-Hash/ZScaler-Get-Sandbox-Report-For-Hash.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "Playbook name": { "value": "[parameters('Playbook name')]"},
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"}
+        }
+      }
+    }
+  ],
+  "outputs": {}
 }

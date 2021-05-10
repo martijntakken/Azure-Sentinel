@@ -15,7 +15,7 @@
 ## Summary
 
 This folder contains 1 playbook: 
-* ZScaler Authentication: Can be used to handle the ZScaler Authentication authenticatopn process. The output is a JSessionID which can be used to do other API actions. The playbook can be embedded in other playbooks. Refer this link for the authentication Process: [Authenticate and create an API session](https://help.zscaler.com/zia/api-getting-started#CreateSession)
+* ZScaler Authentication: Can be used to handle the ZScaler Authentication authentication process. The output is a JSessionID which can be used to do other API actions. The playbook can be embedded in other playbooks. Refer this link for the authentication Process: [Authenticate and create an API session](https://help.zscaler.com/zia/api-getting-started#CreateSession)
 
 ![Playbook](../Images/Authentication.png)
 
@@ -23,7 +23,7 @@ This folder contains 1 playbook:
 
 ## Prerequisites
 
-1. Playbook templates leverage the ZScaler API. To use the Zscaler capabilities, you nees a Zscaler API key. Refer this link: [API Developers Guide: Getting Started](https://help.zscaler.com/zia/api-getting-started)
+1. Playbook templates leverage the ZScaler API. To use the Zscaler capabilities, you need a Zscaler API key. Refer this link: [API Developers Guide: Getting Started](https://help.zscaler.com/zia/api-getting-started)
 
 <a name="deployment"></a>
 
