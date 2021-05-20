@@ -9,6 +9,13 @@
         "description": "Name of the storage account, which will be created by the playbook"
       }
     },
+    "Keyvault name": {
+      "defaultValue": "zscalerauthenticationkv",
+      "type": "String",
+      "metadata": {
+        "description": "Name of the Azure Keyvault, which will be created by the playbook. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens"
+      }
+    },
     "Zscaler Admin Url": {
       "defaultValue": "https://admin.zscalerbeta.net",
       "type": "string",
@@ -62,12 +69,13 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Storage account name": { "value": "[parameters('Storage account name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
-          "Zscaler Key": { "value": "[parameters('Zscaler Key')]"},
-          "Zscaler Username": { "value": "[parameters('Zscaler Username')]"},
-          "Zscaler Password": { "value": "[parameters('Zscaler Password')]"}
+          "Playbook name": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Storage account name": { "value": "[parameters('Storage account name')]" },
+          "Keyvault name": { "value": "[parameters('Keyvault name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Zscaler Key": { "value": "[parameters('Zscaler Key')]" },
+          "Zscaler Username": { "value": "[parameters('Zscaler Username')]" },
+          "Zscaler Password": { "value": "[parameters('Zscaler Password')]" }
         }
       }
     },
@@ -75,7 +83,7 @@
       "name": "IP-Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -83,18 +91,18 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "ZScaler-Add-IP-To-Category"},
-          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
-          "Block Category": { "value": "[parameters('Block Category')]"}
+          "Playbook name": { "value": "ZScaler-Add-IP-To-Category" },
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Block Category": { "value": "[parameters('Block Category')]" }
         }
       }
     },
-        {
+    {
       "name": "URL-Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -102,10 +110,10 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "ZScaler-Add-Url-To-Category"},
-          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
-          "Block Category": { "value": "[parameters('Block Category')]"}
+          "Playbook name": { "value": "ZScaler-Add-Url-To-Category" },
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Block Category": { "value": "[parameters('Block Category')]" }
         }
       }
     },
@@ -113,7 +121,7 @@
       "name": "Category-Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -121,9 +129,9 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "Url-Category-Lookup"},
-          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"}
+          "Playbook name": { "value": "Url-Category-Lookup" },
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
       }
     },
@@ -131,7 +139,7 @@
       "name": "Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -139,9 +147,9 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "Get-Sandbox-Report-For-Hash"},
-          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"}
+          "Playbook name": { "value": "Get-Sandbox-Report-For-Hash" },
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
       }
     }
