@@ -10,7 +10,7 @@
             }
         },
         "ZScaler Authentation Playbook": {
-            "defaultValue": "Zscaler-Authentication",
+            "defaultValue": "Zscaler-Authentication-Playbook",
             "type": "String",
             "metadata": {
                 "description": "Name of the ZScaler Authentication Playbook"

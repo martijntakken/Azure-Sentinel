@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "Playbook name": {
-            "defaultValue": "Zscaler-Authentication",
+            "defaultValue": "Zscaler-Authentication-Playbook",
             "type": "String",
             "metadata": {
                 "description": "Name of the playbook, used as name for the resources. Use only letters and dashes."
@@ -13,7 +13,14 @@
             "defaultValue": "zscalerauthenticationsa",
             "type": "String",
             "metadata": {
-                "description": "Name of the storage account, which will be created by the playbook"
+                "description": "Name of the storage account, which will be created by the playbook."
+            }
+        },
+        "Keyvault name": {
+            "defaultValue": "zscalerauthenticationkv",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the Azure Keyvault, which will be created by the playbook. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens"
             }
         },
         "Zscaler Admin Url": {
@@ -25,14 +32,14 @@
         },
         "Zscaler Key": {
             "defaultValue": "",
-            "type": "string",
+            "type": "securestring",
             "metadata": {
                 "description": "Your ZScaler key."
             }
         },
         "Zscaler Username": {
             "defaultValue": "",
-            "type": "string",
+            "type": "securestring",
             "metadata": {
                 "description": "Your ZScaler username."
             }
@@ -48,7 +55,7 @@
     "variables": {
         "functionAppName": "[concat(parameters('Playbook name'), 'FA')]",
         "appServicePlanName": "[concat(parameters('Playbook name'), 'SP')]",
-        "keyvault_name": "[concat(parameters('Playbook name'), 'KV')]",
+        "keyvault_name": "[toLower(parameters('Keyvault name'))]",
         "storageAccountName": "[toLower(parameters('Storage account name'))]"
     },
     "resources": [
@@ -159,7 +166,7 @@
             "kind": "functionapp",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms',variables('appServicePlanName'))]"
-                ],
+            ],
             "properties": {
                 "enabled": true,
                 "hostNameSslStates": [

@@ -13,7 +13,14 @@
       "defaultValue": "zscalerauthenticationsa",
       "type": "String",
       "metadata": {
-        "description": "Name of the storage account, which will be created by the playbook"
+        "description": "Name of the storage account, which will be created by the playbook."
+      }
+    },
+    "Keyvault name": {
+      "defaultValue": "zscalerauthenticationkv",
+      "type": "String",
+      "metadata": {
+        "description": "Name of the Azure Keyvault, which will be created by the playbook. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens"
       }
     },
     "Zscaler Admin Url": {
@@ -41,7 +48,7 @@
       "defaultValue": "",
       "type": "securestring",
       "metadata": {
-        "description": "Your Scaler password."
+        "description": "Your ZScaler password."
       }
     },
     "Block Category": {
@@ -54,7 +61,7 @@
   },
   "variables": {
     "GithubUrl": "https://raw.githubusercontent.com/martijntakken/Azure-Sentinel/feature/zscaler/Playbooks/ZScaler",
-    "ZScaler Authentication Playbook Name": "ZScaler-Authentication"
+    "ZScaler Authentication Playbook Name": "ZScaler-Authentication-Playbook"
   },
   "resources": [
     {
@@ -69,12 +76,13 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Storage account name": { "value": "[parameters('Storage account name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
-          "Zscaler Key": { "value": "[parameters('Zscaler Key')]"},
-          "Zscaler Username": { "value": "[parameters('Zscaler Username')]"},
-          "Zscaler Password": { "value": "[parameters('Zscaler Password')]"}
+          "Playbook name": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Storage account name": { "value": "[parameters('Storage account name')]" },
+          "Keyvault name": { "value": "[parameters('Keyvault name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Zscaler Key": { "value": "[parameters('Zscaler Key')]" },
+          "Zscaler Username": { "value": "[parameters('Zscaler Username')]" },
+          "Zscaler Password": { "value": "[parameters('Zscaler Password')]" }
         }
       }
     },
@@ -82,7 +90,7 @@
       "name": "Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["[resourceId('Microsoft.Resources/deployments', 'Authentication')]"],
+      "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -90,10 +98,10 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "[parameters('Playbook name')]"},
-          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]"},
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]"},
-          "Category": { "value": "[parameters('Block Category')]"}
+          "Playbook name": { "value": "[parameters('Playbook name')]" },
+          "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Block Category": { "value": "[parameters('Block Category')]" }
         }
       }
     }
