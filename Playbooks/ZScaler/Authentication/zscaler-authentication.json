@@ -20,7 +20,14 @@
             "defaultValue": "zscalerauthenticationkv",
             "type": "String",
             "metadata": {
-                "description": "Name of the Azure Keyvault, which will be created by the playbook. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens"
+                "description": "Name of the Azure Keyvault, which will be created by the playbook. A vault's name must be between 3-24 alphanumeric characters. The name must begin with a letter, end with a letter or digit, and not contain consecutive hyphens."
+            }
+        },
+        "Function App name": {
+            "defaultValue": "zscalerauthenticationfa",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the Azure Function App, which will be created by the playbook."
             }
         },
         "Zscaler Admin Url": {
@@ -53,8 +60,8 @@
         }
     },
     "variables": {
-        "functionAppName": "[concat(parameters('Playbook name'), 'FA')]",
-        "appServicePlanName": "[concat(parameters('Playbook name'), 'SP')]",
+        "functionAppName": "[parameters('Function App name')]",
+        "appServicePlanName": "[parameters('Function App name')]",
         "keyvault_name": "[toLower(parameters('Keyvault name'))]",
         "storageAccountName": "[toLower(parameters('Storage account name'))]"
     },
