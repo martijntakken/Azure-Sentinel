@@ -105,7 +105,7 @@
                             "actions": {
                                 "Add_comment_to_incident_(V3)": {
                                     "runAfter": {
-                                        "HTTP_Add_Url": [
+                                        "Compose": [
                                             "Succeeded"
                                         ]
                                     },
@@ -113,7 +113,7 @@
                                     "inputs": {
                                         "body": {
                                             "incidentArmId": "@triggerBody()?['object']?['id']",
-                                            "message": "[concat('<p>Url @{items(''For_each'')?[''Url'']} has been added to category ', parameters('Block Category'), '</p>')]"
+                                            "message": "[concat('<p>@{outputs(''Compose'')}<br>Url @{items(''For_each'')?[''Url'']} has been added to category ', parameters('Block Category'), '</p>')]"
                                         },
                                         "host": {
                                             "connection": {
@@ -124,6 +124,15 @@
                                         "path": "/Incidents/Comment"
                                     }
                                 },
+                                                        "Compose": {
+                            "runAfter": {
+                                "HTTP_Add_Url": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Compose",
+                            "inputs": "<img src=\"https://www.zscaler.com//themes/custom/zscaler/logo.svg\" alt=\"ZScaler\">"
+                        },
                                 "HTTP_Add_Url": {
                                     "runAfter": {},
                                     "type": "Http",

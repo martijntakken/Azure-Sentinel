@@ -105,15 +105,15 @@
                             "actions": {
                                 "Add_comment_to_incident_(V3)_2": {
                                     "runAfter": {
-                                        "HTTP": [
-                                            "Succeeded"
-                                        ]
+                                "Compose": [
+                                    "Succeeded"
+                                ]
                                     },
                                     "type": "ApiConnection",
                                     "inputs": {
                                         "body": {
                                             "incidentArmId": "@triggerBody()?['object']?['id']",
-                                            "message": "[concat('<p>IP @{items(''For_each'')?[''Address'']} has been added to category ', parameters('Block Category'), '</p>')]"
+                                            "message": "[concat('<p>@{outputs(''Compose'')}<br>IP @{items(''For_each'')?[''Address'']} has been added to category ', parameters('Block Category'), '</p>')]"
                                         },
                                         "host": {
                                             "connection": {
@@ -124,6 +124,15 @@
                                         "path": "/Incidents/Comment"
                                     }
                                 },
+                                                        "Compose": {
+                            "runAfter": {
+                                "HTTP": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Compose",
+                            "inputs": "<img src=\"https://www.zscaler.com//themes/custom/zscaler/logo.svg\" alt=\"ZScaler\">"
+                        },
                                 "HTTP": {
                                     "runAfter": {},
                                     "type": "Http",

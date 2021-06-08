@@ -81,7 +81,7 @@
                     "actions": {
                         "Add_comment_to_incident_(V3)": {
                             "runAfter": {
-                                "For_each": [
+                                "Compose": [
                                     "Succeeded"
                                 ]
                             },
@@ -89,7 +89,7 @@
                             "inputs": {
                                 "body": {
                                     "incidentArmId": "@triggerBody()?['object']?['id']",
-                                    "message": "<p>ZScaler did a lookup for the following files:<br>\n<br>\n@{variables('Result')}</p>"
+                                    "message": "<p>@{outputs('Compose')}<br>\n<strong>FileHash report from Zscaler playbook:<br>\n<br>\n@{variables('Result')}</p>"
                                 },
                                 "host": {
                                     "connection": {
@@ -99,6 +99,15 @@
                                 "method": "post",
                                 "path": "/Incidents/Comment"
                             }
+                        },                        
+                        "Compose": {
+                            "runAfter": {
+                                "For_each": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Compose",
+                            "inputs": "<img src=\"https://www.zscaler.com//themes/custom/zscaler/logo.svg\" alt=\"ZScaler\">"
                         },
                         "Entities_-_Get_FileHashes": {
                             "runAfter": {},

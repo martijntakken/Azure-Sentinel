@@ -137,7 +137,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "Url-Category-Lookup" },
+          "Playbook name": { "value": "ZScaler-Url-Category-Lookup" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
           "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
@@ -155,7 +155,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "Playbook name": { "value": "Get-Sandbox-Report-For-Hash" },
+          "Playbook name": { "value": "ZScaler-Get-Sandbox-Report-For-Hash" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
           "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
