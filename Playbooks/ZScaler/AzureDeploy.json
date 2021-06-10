@@ -17,7 +17,7 @@
       }
     },
     "Function App name": {
-      "defaultValue": "zscalerauthenticationkv",
+      "defaultValue": "zscalerauthenticationfa",
       "type": "String",
       "metadata": {
         "description": "Name of the Azure Function App, which will be created by the playbook."
