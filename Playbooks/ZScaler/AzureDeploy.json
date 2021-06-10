@@ -65,7 +65,7 @@
   },
   "resources": [
     {
-      "name": "Authentication",
+      "name": "Zscaler-Authentication-Playbook",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [],
@@ -88,7 +88,7 @@
       }
     },
     {
-      "name": "IP-Playbook",
+      "name": "ZScaler-Add-IP-To-Category",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
@@ -107,7 +107,7 @@
       }
     },
     {
-      "name": "URL-Playbook",
+      "name": "ZScaler-Add-Url-To-Category",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
@@ -126,7 +126,7 @@
       }
     },
     {
-      "name": "Category-Playbook",
+      "name": "ZScaler-Url-Category-Lookup",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
@@ -144,7 +144,7 @@
       }
     },
     {
-      "name": "Playbook",
+      "name": "ZScaler-Get-Sandbox-Report-For-Hash",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [ "[resourceId('Microsoft.Resources/deployments', 'Authentication')]" ],
