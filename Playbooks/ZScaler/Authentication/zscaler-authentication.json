@@ -169,7 +169,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[variables('functionAppName')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "kind": "functionapp",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms',variables('appServicePlanName'))]"
@@ -207,7 +207,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
             "name": "[concat(variables('functionAppName'), '/web')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
                 "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
@@ -289,7 +289,7 @@
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2018-11-01",
             "name": "[concat(variables('functionAppName'), '/GetApiKey')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
                 "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
@@ -321,7 +321,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(variables('functionAppName'), '/', variables('functionAppName'), '.azurewebsites.net')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
                 "[resourceId('Microsoft.Web/serverfarms',variables('appServicePlanName'))]"

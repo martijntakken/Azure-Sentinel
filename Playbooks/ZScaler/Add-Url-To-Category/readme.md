@@ -19,7 +19,9 @@ This folder contains 1 playbook:
 
 ![Playbook](../Images/Add-URL-To-Category.png)
 
-The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are shown in the related Azure Sentinel Incident. 
+The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are shown in the related Azure Sentinel Incident:
+
+![Sentinel](../Images/Sentinel_Add_URL_To_Category.png)
 
 <a name="Prerequisites"></a>
 

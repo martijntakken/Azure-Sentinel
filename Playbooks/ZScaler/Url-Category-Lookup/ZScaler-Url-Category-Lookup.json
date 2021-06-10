@@ -89,7 +89,7 @@
                             "inputs": {
                                 "body": {
                                     "incidentArmId": "@triggerBody()?['object']?['id']",
-                                    "message": "<p>@{outputs('Compose')}<br>\n<strong>Zscaler Url lookup:<br>\n<br>\n@{variables('Result')}</p>"
+                                    "message": "<p>@{outputs('Compose')}<br>\n<strong>Zscaler Url lookup:<br>\n@{variables('Result')}</p>"
                                 },
                                 "host": {
                                     "connection": {
