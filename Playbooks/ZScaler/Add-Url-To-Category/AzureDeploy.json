@@ -57,13 +57,6 @@
       "metadata": {
         "description": "Your ZScaler password."
       }
-    },
-    "Block Category": {
-      "defaultValue": "OTHER_MISCELLANEOUS",
-      "type": "String",
-      "metadata": {
-        "description": "ZScaler block category"
-      }
     }
   },
   "variables": {
@@ -108,8 +101,7 @@
         "parameters": {
           "Playbook name": { "value": "[parameters('Playbook name')]" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
-          "Block Category": { "value": "[parameters('Block Category')]" }
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
       }
     }

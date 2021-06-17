@@ -22,13 +22,6 @@
             "metadata": {
                 "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
             }
-        },
-        "Block Category": {
-            "defaultValue": "OTHER_MISCELLANEOUS",
-            "type": "String",
-            "metadata": {
-                "description": "ZScaler block category"
-            }
         }
     },
     "variables": {
@@ -86,8 +79,25 @@
                         }
                     },
                     "actions": {
-                        "Entities_-_Get_URLs": {
+                        "Set_ZScaler_Block_Category": {
                             "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "Category",
+                                        "type": "string",
+                                        "value": "OTHER_MISCELLANEOUS"
+                                    }
+                                ]
+                            }
+                        },
+                        "Entities_-_Get_URLs": {
+                            "runAfter": {
+                                "Set_ZScaler_Block_Category": [
+                                    "Succeeded"
+                                ]
+                            },
                             "type": "ApiConnection",
                             "inputs": {
                                 "body": "@triggerBody()?['object']?['properties']?['relatedEntities']",
@@ -113,7 +123,7 @@
                                     "inputs": {
                                         "body": {
                                             "incidentArmId": "@triggerBody()?['object']?['id']",
-                                            "message": "[concat('<p>@{outputs(''Compose'')}<br>Url @{items(''For_each'')?[''Url'']} has been added to category ', parameters('Block Category'), '</p>')]"
+                                            "message": "[concat('<p>@{outputs(''Compose'')}<br>Url @{items(''For_each'')?[''Url'']} has been added to category @{variables(''Category'')}</p>')]"
                                         },
                                         "host": {
                                             "connection": {
@@ -124,15 +134,15 @@
                                         "path": "/Incidents/Comment"
                                     }
                                 },
-                                                        "Compose": {
-                            "runAfter": {
-                                "HTTP_Add_Url": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "Compose",
-                            "inputs": "<img src=\"https://www.zscaler.com//themes/custom/zscaler/logo.svg\" alt=\"ZScaler\">"
-                        },
+                                "Compose": {
+                                    "runAfter": {
+                                        "HTTP_Add_Url": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Compose",
+                                    "inputs": "<img src=\"https://www.zscaler.com//themes/custom/zscaler/logo.svg\" alt=\"ZScaler\">"
+                                },
                                 "HTTP_Add_Url": {
                                     "runAfter": {},
                                     "type": "Http",
@@ -148,7 +158,7 @@
                                             "Content-Type": "application/json"
                                         },
                                         "method": "PUT",
-                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/urlCategories/', parameters('Block Category'),'?action=ADD_TO_LIST')]"
+                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/urlCategories/@{variables(''Category'')}?action=ADD_TO_LIST')]"
                                     }
                                 }
                             },

@@ -50,13 +50,6 @@
       "metadata": {
         "description": "Your Scaler password."
       }
-    },
-    "Block Category": {
-      "defaultValue": "OTHER_MISCELLANEOUS",
-      "type": "String",
-      "metadata": {
-        "description": "ZScaler block category"
-      }
     }
   },
   "variables": {
@@ -101,8 +94,7 @@
         "parameters": {
           "Playbook name": { "value": "ZScaler-Add-IP-To-Category" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
-          "Block Category": { "value": "[parameters('Block Category')]" }
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
       }
     },
@@ -120,8 +112,7 @@
         "parameters": {
           "Playbook name": { "value": "ZScaler-Add-Url-To-Category" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
-          "Block Category": { "value": "[parameters('Block Category')]" }
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
         }
       }
     },

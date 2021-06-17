@@ -72,12 +72,17 @@ Once the deployment is completed, you will need to authorize each connection. Th
  1. Sign in
  1. Click Save
 
-
 ### b. Configurations in Azure Sentinel
 For Azure Sentinel some additional configuration is needed:
 1. Enable Azure Sentinel Analytics rules that create alerts and incidents which includes the relevant entities.
 1. Configure automation rule(s) to trigger the playbooks.
 
+### c. Set ZScaler Block Category
+Both the "Add IP to category" and the "Add Url to category" are using a ZScaler block category to add IP addresses or urls to it. The default ZScaler block category is set to "OTHER_MISCELLANEOUS". It can be changed in the playbook using the following steps:
+1. Edit the playbook
+1. Edit the 'Set ZScaler Category' action
+1. Update the value to an existing ZScaler block category
+1. Save the playbook
 
 <a name="references"></a>
 

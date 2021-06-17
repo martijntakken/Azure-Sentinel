@@ -45,7 +45,6 @@ You can choose to deploy one ore more playbooks.
     * ZScaler Key
     * ZScaler Username
     * ZScaler Password
-    * Category (Name of an existing ZScaler category)
 
 ### Deploy Add IP to category playbook
 
@@ -84,11 +83,18 @@ Once the deployment is completed, you will need to authorize each connection. Th
  1. Sign in
  1. Click Save
 
-
 ### b. Configurations in Azure Sentinel
 For Azure Sentinel some additional configuration is needed:
 1. Enable Azure Sentinel Analytics rules that create alerts and incidents which includes the relevant entities.
 1. Configure automation rule(s) to trigger the playbooks.
+
+### c. Set ZScaler Block Category
+The default ZScaler block category is set to "OTHER_MISCELLANEOUS". It can be changed in the playbook using the following steps:
+1. Edit the playbook
+1. Edit the 'Set ZScaler Category' action
+1. Update the value to an existing ZScaler block category
+1. Save the playbook
+
 
 
 <a name="references"></a>
