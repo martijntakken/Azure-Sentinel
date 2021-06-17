@@ -21,6 +21,8 @@ This folder contains 1 playbook:
 
 The playbook is used to respond to an incident in Azure Sentinel and uses the Zscaler API. The playbook leverages the [authentication playbook](../authentication/readme.md).  The results of the scan are shown in the related Azure Sentinel Incident. 
 
+![Playbook](../Images/Sentinel_Get_Sandbox_Report.png)
+
 <a name="Prerequisites"></a>
 
 ## Prerequisites

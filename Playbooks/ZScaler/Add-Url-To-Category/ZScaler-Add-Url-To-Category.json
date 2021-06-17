@@ -17,10 +17,17 @@
             }
         },
         "Zscaler Admin Url": {
-            "defaultValue": "https://admin.zscalerbeta.net",
+            "defaultValue": "https://admin.<zscaler_instance_domain>.net",
             "type": "string",
             "metadata": {
-                "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
+                "description": "Update to a valid ZScaler admin url."
+            }
+        },
+        "Block Category": {
+            "defaultValue": "OTHER_MISCELLANEOUS",
+            "type": "String",
+            "metadata": {
+                "description": "ZScaler block category"
             }
         }
     },
@@ -87,7 +94,7 @@
                                     {
                                         "name": "Category",
                                         "type": "string",
-                                        "value": "OTHER_MISCELLANEOUS"
+                                        "value": "[parameters('Block Category')]"
                                     }
                                 ]
                             }
@@ -136,7 +143,7 @@
                                 },
                                 "Compose": {
                                     "runAfter": {
-                                        "HTTP_Add_Url": [
+                                        "HTTP_Activate_Changes": [
                                             "Succeeded"
                                         ]
                                     },
@@ -159,6 +166,19 @@
                                         },
                                         "method": "PUT",
                                         "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/urlCategories/@{variables(''Category'')}?action=ADD_TO_LIST')]"
+                                    }
+                                },
+                                "HTTP_Activate_Changes": {
+                                    "runAfter": {
+                                        "HTTP_Add_Url": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Http",
+                                    "inputs": {
+                                        "cookie": "@body('Parse_Authentication_Response')?['cookie']",
+                                        "method": "POST",
+                                        "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/status/activate')]"
                                     }
                                 }
                             },

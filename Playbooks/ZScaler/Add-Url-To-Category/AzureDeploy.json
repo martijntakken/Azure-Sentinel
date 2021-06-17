@@ -31,10 +31,10 @@
       }
     },
     "Zscaler Admin Url": {
-      "defaultValue": "https://admin.zscalerbeta.net",
+      "defaultValue": "https://admin.<zscaler_instance_domain>.net",
       "type": "string",
       "metadata": {
-        "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
+        "description": "Update to a valid ZScaler admin url."
       }
     },
     "Zscaler Key": {
@@ -57,7 +57,14 @@
       "metadata": {
         "description": "Your ZScaler password."
       }
-    }
+    },
+        "Block Category": {
+            "defaultValue": "OTHER_MISCELLANEOUS",
+            "type": "String",
+            "metadata": {
+                "description": "ZScaler block category"
+            }
+        }
   },
   "variables": {
     "GithubUrl": "https://raw.githubusercontent.com/martijntakken/Azure-Sentinel/feature/zscaler/Playbooks/ZScaler",
@@ -101,7 +108,8 @@
         "parameters": {
           "Playbook name": { "value": "[parameters('Playbook name')]" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Block Category": { "value": "[parameters('Block Category')]" }
         }
       }
     }

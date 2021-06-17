@@ -24,10 +24,10 @@
       }
     },
     "Zscaler Admin Url": {
-      "defaultValue": "https://admin.zscalerbeta.net",
+      "defaultValue": "https://admin.<zscaler_instance_domain>.net",
       "type": "string",
       "metadata": {
-        "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
+        "description": "Update to a valid ZScaler admin url."
       }
     },
     "Zscaler Key": {
@@ -49,6 +49,13 @@
       "type": "securestring",
       "metadata": {
         "description": "Your Scaler password."
+      }
+    },
+    "Block Category": {
+      "defaultValue": "OTHER_MISCELLANEOUS",
+      "type": "String",
+      "metadata": {
+        "description": "ZScaler block category"
       }
     }
   },
@@ -94,7 +101,8 @@
         "parameters": {
           "Playbook name": { "value": "ZScaler-Add-IP-To-Category" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Block Category": { "value": "[parameters('Block Category')]" }
         }
       }
     },
@@ -112,7 +120,8 @@
         "parameters": {
           "Playbook name": { "value": "ZScaler-Add-Url-To-Category" },
           "ZScaler Authentation Playbook": { "value": "[variables('ZScaler Authentication Playbook Name')]" },
-          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" }
+          "Zscaler Admin Url": { "value": "[parameters('Zscaler Admin Url')]" },
+          "Block Category": { "value": "[parameters('Block Category')]" }
         }
       }
     },

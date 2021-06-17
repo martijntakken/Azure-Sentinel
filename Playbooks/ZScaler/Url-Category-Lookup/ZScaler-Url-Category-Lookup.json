@@ -17,10 +17,10 @@
             }
         },
         "Zscaler Admin Url": {
-            "defaultValue": "https://admin.zscalerbeta.net",
+            "defaultValue": "https://admin.<zscaler_instance_domain>.net",
             "type": "string",
             "metadata": {
-                "description": "Zscaler admin url, eg: https://admin.zscalerbeta.net."
+                "description": "Update to a valid ZScaler admin url."
             }
         }
     },
