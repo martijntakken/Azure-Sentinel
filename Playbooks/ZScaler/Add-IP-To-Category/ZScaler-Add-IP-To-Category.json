@@ -155,6 +155,7 @@
                                     "type": "Http",
                                     "inputs": {
                                         "body": {
+                                            "configuredName": "@{variables('Category')}",
                                             "urls": [
                                                 "@{items('For_each')?['Address']}"
                                             ]
@@ -188,6 +189,19 @@
                                 ]
                             },
                             "type": "Foreach"
+                        },
+                        "HTTP_Delete_Api_Session": {
+                            "runAfter": {
+                                "For_each": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Http",
+                            "inputs": {
+                                "cookie": "@body('Parse_Authentication_Response')?['cookie']",
+                                "method": "DELETE",
+                                "uri": "[concat(parameters('Zscaler Admin Url'), '/api/v1/authenticatedSession')]"
+                            }
                         },
                         "Parse_Authentication_Response": {
                             "runAfter": {
